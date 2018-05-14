@@ -23,26 +23,22 @@ import com.github.gumtreediff.gen.Register;
 import com.github.gumtreediff.gen.Registry;
 import com.github.gumtreediff.gen.TreeGenerator;
 import com.github.gumtreediff.tree.TreeContext;
-import org.mozilla.javascript.CompilerEnvirons;
-import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ast.AstRoot;
+import jdk.nashorn.api.tree.CompilationUnitTree;
+import jdk.nashorn.api.tree.Parser;
 
 import java.io.IOException;
 import java.io.Reader;
 
-@Register(id = "js-rhino", accept = "\\.js$", priority = Registry.Priority.HIGH)
-public class RhinoTreeGenerator extends TreeGenerator {
+@Register(id = "js-nashorn", accept = "\\.js$", priority = Registry.Priority.MAXIMUM)
+public class NashornTreeGenerator extends TreeGenerator {
 
     @Override
     public TreeContext generate(Reader r) throws IOException {
-        CompilerEnvirons env = new CompilerEnvirons();
-        env.setRecordingLocalJsDocComments(true);
-        env.setAllowSharpComments(true);
-        env.setRecordingComments(true);
-        Parser p = new Parser(env);
-        AstRoot root = p.parse(r, null, 1);
-        RhinoTreeVisitor visitor = new RhinoTreeVisitor(root);
-        root.visitAll(visitor);
-        return visitor.getTree(root);
+        Parser nashornParser = Parser.create("--language=es6");
+        CompilationUnitTree jsTree = nashornParser.parse("dummy.js", r, null);
+
+        NashornTreeVisitor visitor = new NashornTreeVisitor(jsTree);
+        jsTree.accept(visitor, null);
+        return visitor.getTree(jsTree);
     }
 }
