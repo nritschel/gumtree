@@ -29,7 +29,7 @@ import jdk.nashorn.api.tree.Parser;
 import java.io.IOException;
 import java.io.Reader;
 
-@Register(id = "js-nashorn", accept = "\\.js$", priority = Registry.Priority.MAXIMUM)
+@Register(id = "js-nashorn", accept = "\\.js$", priority = Registry.Priority.HIGH)
 public class NashornTreeGenerator extends TreeGenerator {
 
     @Override

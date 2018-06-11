@@ -2,4 +2,6 @@ description = 'GumTree tree generator for JavaScript code (Rhino based).'
 
 dependencies {
 	compile 'org.mozilla:rhino:1.7.9'
+    compile group: 'com.oracle.truffle', name: 'truffle-api', version: '1.0.0-rc2'
+    compile group: 'org.graalvm', name: 'graal-sdk', version: '1.0.0-rc2'
 }
