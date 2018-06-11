@@ -36,6 +36,15 @@ import java.io.Reader;
 
 @Register(id = "js-graal", accept = "\\.js$", priority = Registry.Priority.MAXIMUM)
 public class GraalJSTreeGenerator extends TreeGenerator {
+    private String fileName;
+
+    public GraalJSTreeGenerator(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public GraalJSTreeGenerator() {
+        this.fileName = "";
+    }
 
     @Override
     public TreeContext generate(Reader r) throws IOException {
@@ -47,9 +56,9 @@ public class GraalJSTreeGenerator extends TreeGenerator {
             stringBuilder.append(System.lineSeparator());
         }
 
-        Parser parser = new Parser(ScriptEnvironment.builder().build(), Source.sourceFor("dummy.js",stringBuilder.toString()), new ErrorManager.ThrowErrorManager());
+        Parser parser = new Parser(ScriptEnvironment.builder().build(), Source.sourceFor(fileName,stringBuilder.toString()), new ErrorManager.ThrowErrorManager());
 
-        FunctionNode node = parser.parse();
+        FunctionNode node = parser.parseModule("");
         LexicalContext ctx = new LexicalContext();
         GraalJSTreeVisitor visitor = new GraalJSTreeVisitor(node, ctx);
         node.accept(ctx, visitor);
