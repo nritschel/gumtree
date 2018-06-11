@@ -278,6 +278,7 @@ public class NashornTreeVisitor extends SimpleTreeVisitorES6<Object, Object> {
     @Override
     public Object visitFunctionDeclaration(FunctionDeclarationTree node, Object r) {
         beforeVisit(node, r);
+        node.getName().accept(this, r);
         Object returnVal = super.visitFunctionDeclaration(node, r);
         afterVisit(node, r);
         return returnVal;
@@ -286,6 +287,7 @@ public class NashornTreeVisitor extends SimpleTreeVisitorES6<Object, Object> {
     @Override
     public Object visitFunctionExpression(FunctionExpressionTree node, Object r) {
         beforeVisit(node, r);
+        node.getName().accept(this, r);
         Object returnVal = super.visitFunctionExpression(node, r);
         afterVisit(node, r);
         return returnVal;
@@ -342,6 +344,7 @@ public class NashornTreeVisitor extends SimpleTreeVisitorES6<Object, Object> {
     @Override
     public Object visitMemberSelect(MemberSelectTree node, Object r) {
         beforeVisit(node, r);
+        trees.get(node).setLabel(node.getIdentifier());
         Object returnVal = super.visitMemberSelect(node, r);
         afterVisit(node, r);
         return returnVal;

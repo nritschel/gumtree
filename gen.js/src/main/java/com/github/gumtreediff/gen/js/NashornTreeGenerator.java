@@ -34,7 +34,7 @@ public class NashornTreeGenerator extends TreeGenerator {
 
     @Override
     public TreeContext generate(Reader r) throws IOException {
-        Parser nashornParser = Parser.create("--language=es6");
+        Parser nashornParser = Parser.create("--language=es6", "--es6-module");
         CompilationUnitTree jsTree = nashornParser.parse("dummy.js", r, null);
 
         NashornTreeVisitor visitor = new NashornTreeVisitor(jsTree);
