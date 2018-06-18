@@ -65,7 +65,7 @@ import java.util.Map;
  */
 @SuppressWarnings("fallthrough")
 public class Lexer extends Scanner {
-    private static final boolean XML_LITERALS = Options.getBooleanProperty("lexer.xmlliterals");
+    private static final boolean XML_LITERALS = Options.getBooleanProperty("lexer.xmlliterals", true);
 
     /** Content source. */
     private final Source source;
@@ -1566,7 +1566,7 @@ public class Lexer extends Scanner {
          * Constructor.
          */
 
-        EditStringLexer(final Lexer lexer, final TokenType stringType, final State stringState) {
+        EditStringLexer(final Lexer lexer, final TokenType stringType, final Lexer.State stringState) {
             super(lexer, stringState);
 
             this.stringType = stringType;
@@ -1610,7 +1610,7 @@ public class Lexer extends Scanner {
                     skip(2);
 
                     // Save expression state.
-                    final State expressionState = saveState();
+                    final Lexer.State expressionState = saveState();
 
                     // Start with one open brace.
                     int braceCount = 1;
