@@ -41,7 +41,7 @@ public class GraalJSTreeVisitor extends NodeVisitor<LexicalContext> {
         context = new TreeContext();
         currentParentChain = new Stack<>();
 
-        ITree tree = buildTree(root);
+        buildTree(root);
     }
 
     public TreeContext getTree(Node root) {
@@ -77,21 +77,24 @@ public class GraalJSTreeVisitor extends NodeVisitor<LexicalContext> {
     @Override
     public boolean enterIdentNode(IdentNode node) {
         beforeVisit(node);
-        trees.get(node).setLabel(node.getName());
+        if (node.getName() != null)
+            trees.get(node).setLabel(node.getName());
         return super.enterDefault(node);
     }
 
     @Override
     public boolean enterAccessNode(AccessNode node) {
         beforeVisit(node);
-        trees.get(node).setLabel(node.getProperty());
+        if (node.getProperty() != null)
+            trees.get(node).setLabel(node.getProperty());
         return super.enterDefault(node);
     }
 
     @Override
     public boolean enterPropertyNode(PropertyNode node) {
         beforeVisit(node);
-        trees.get(node).setLabel(node.getKeyName());
+        if (node.getKeyName() != null)
+            trees.get(node).setLabel(node.getKeyName());
         return super.enterDefault(node);
     }
 
